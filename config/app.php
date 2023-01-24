@@ -15,8 +15,7 @@ return [
 	*/
 
 	'name'                       => env('APP_NAME', 'Laravel'),
-	'frontend_domain'            => env('SANCTUM_STATEFUL_DOMAINS'),
-
+	'frontend_url'               => env('FRONTEND_URL'),
 	/*
 	|--------------------------------------------------------------------------
 	| Application Environment

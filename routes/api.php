@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\Api\RegistrationController;
+use App\Http\Controllers\Api\ResetPasswordController;
 use App\Http\Controllers\Api\VerificationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -28,3 +29,9 @@ Route::post('/logout', [LoginController::class, 'logout']);
 //email verification
 Route::get('email/verify', [VerificationController::class, 'notice'])->name('verification.notice');
 Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->name('verification.verify')->middleware('auth', 'signed');
+
+//reset password
+Route::post('/forgot-password', [ResetPasswordController::class, 'sendResetLink'])->name('password.email');
+
+Route::get('/reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+Route::post('/reset-password', [ResetPasswordController::class, 'resetPassword'])->name('password.update');
