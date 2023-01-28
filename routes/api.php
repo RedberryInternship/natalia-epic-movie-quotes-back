@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\GoogleController;
 use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\Api\RegistrationController;
 use App\Http\Controllers\Api\ResetPasswordController;
@@ -35,3 +36,9 @@ Route::post('/forgot-password', [ResetPasswordController::class, 'sendResetLink'
 
 Route::get('/reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
 Route::post('/reset-password', [ResetPasswordController::class, 'resetPassword'])->name('password.update');
+
+//Google authentication
+Route::prefix('google/auth')->group(function () {
+	Route::get('redirect', [GoogleController::class, 'redirect'])->name('google.redirect');
+	Route::get('callback', [GoogleController::class, 'callBackFromGoogle'])->name('google.callback');
+});
