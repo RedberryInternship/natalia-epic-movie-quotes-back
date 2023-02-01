@@ -4,33 +4,35 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-	public function user(){
+	public function user()
+	{
 		return response(['user' => auth()->user()]);
 	}
 
-	public function login(LoginRequest $request): JsonResponse
+	public function login(LoginRequest $request)
 	{
-		$vallidated = $request->validated();
+		$field_type = filter_var($request->email, FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
+		$request->merge([$field_type => $request->email]);
 
-		if (Auth::attempt($vallidated))
+		if (auth()->attempt($request->only([$field_type, 'password'])))
 		{
-			request()->session()->regenerate();
-			return response()->json(['message' => 'Successfully logged in']);
+			$request->session()->regenerate();
+			$user = Auth::user();
+			return response(['user' => $user]);
 		}
 
-		return response()->json(['message' => 'Invalid Credentials'], 401);
+		return response()->json(['message' => 'Invalid credentials'], 401);
 	}
 
 	public function logout()
 	{
-		Auth::logout();
+		Auth::guard('web')->logout();
 		request()->session()->invalidate();
-		request()->session()->regenerateToken();
-		return response(['message' => 'Logged Out']);
+
+		return response()->json(['message' => 'Logged Out']);
 	}
 }
