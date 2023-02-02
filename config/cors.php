@@ -14,17 +14,17 @@ return [
 	|
 	*/
 
-	'paths'                    => ['api/*', 'sanctum/csrf-cookie', 'login',  'logout', 'register', 'user', 'reset-password'],
+	'paths'                    => ['api/*', 'sanctum/csrf-cookie', 'login',  'logout', 'register', 'user', 'reset-password', 'google/auth/redirect'],
 
 	'allowed_methods'          => ['*'],
 
 	'allowed_origins'          => ['*'],
 
-	'allowed_origins_patterns' => [],
+	'allowed_origins_patterns' => ['*'],
 
 	'allowed_headers'          => ['*'],
 
-	'exposed_headers'          => [],
+	'exposed_headers'          => ['*'],
 
 	'max_age'                  => 0,
 
