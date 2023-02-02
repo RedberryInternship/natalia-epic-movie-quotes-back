@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreMovieRequest;
-use App\Http\Requests\Api\Admin\Movie\UpdateMovieRequest;
+use App\Http\Requests\Admin\UpdateMovieRequest;
 use App\Models\Movie;
 use Illuminate\Support\Facades\Storage;
 
@@ -15,11 +15,14 @@ class MovieController extends Controller
 		$userMovies = Movie::where('user_id', auth()->user()->id)->latest()->get();
 		$movie = $userMovies->map(function ($movie) {
 			return [
-				'name'  => $movie->name,
-				'image' => Storage::url($movie->image),
-				'year'  => $movie->year,
+				'id'     => $movie->id,
+				'title'  => json_decode($movie->title),
+				'image'  => Storage::url($movie->image),
+				'year'   => $movie->year,
+				'quotes' => $movie->quotes,
 			];
 		});
+		return $movie;
 	}
 
 	public function store(StoreMovieRequest $request)
@@ -53,7 +56,6 @@ class MovieController extends Controller
 		return response()->json('success', 201);
 	}
 
-	
 	public function get($id)
 	{
 		$movie = Movie::where('id', $id)->first();
@@ -74,7 +76,6 @@ class MovieController extends Controller
 				'en' => $request['title_en'],
 				'ka' => $request['title_ka'],
 			]),
-			'genre'         => json_encode($request['genre']),
 
 			'director'      => json_encode([
 				'en' => $request['director_en'],
@@ -84,6 +85,8 @@ class MovieController extends Controller
 				'en' => $request['description_en'],
 				'ka' => $request['description_ka'],
 			]),
+			'genre'         => json_encode($request['genre']),
+
 			'year'          => $request['year'],
 			'budget'        => $request['budget'],
 		];
