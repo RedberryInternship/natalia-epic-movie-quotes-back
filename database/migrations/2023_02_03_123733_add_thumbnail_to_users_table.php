@@ -8,14 +8,12 @@ return new class extends Migration {
 	public function up()
 	{
 		Schema::table('users', function (Blueprint $table) {
-			$table->string('google_id')->nullable();
+			$table->string('thumbnail')->default(env('APP_URL') . '/images/avatar.png');
 		});
 	}
 
 	public function down()
 	{
-		Schema::table('users', function (Blueprint $table) {
-			$table->dropColumn('google_id');
-		});
+		Schema::dropIfExists('users');
 	}
 };
