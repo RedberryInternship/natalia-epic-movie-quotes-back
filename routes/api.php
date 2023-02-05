@@ -57,5 +57,8 @@ Route::middleware('auth:sanctum')->group(function () {
 	//Profile
 	Route::controller(ProfileController::class)->group(function () {
 		Route::post('/user-update', 'update');
+		Route::get('/emais', 'get');
+		Route::post('/email-create', 'create');
+		Route::delete('/email-destroy/{email:id}', 'destroy');
 	});
 });

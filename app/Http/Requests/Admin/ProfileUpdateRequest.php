@@ -9,7 +9,7 @@ class ProfileUpdateRequest extends FormRequest
 	public function rules()
 	{
 		return [
-			'name'      => 'nullable|unique:users,name',
+			'name'      => 'nullable',
 			'password'  => 'nullable',
 			'thumbnail' => 'image|nullable',
 		];

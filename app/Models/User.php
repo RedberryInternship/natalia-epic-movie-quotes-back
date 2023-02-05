@@ -43,4 +43,9 @@ class User extends Authenticatable implements MustVerifyEmail
 	{
 		return $this->hasMany(Movie::class, 'user_id');
 	}
+
+	public function email()
+	{
+		return $this->hasMany(Email::class, 'user_id');
+	}
 }
