@@ -73,4 +73,23 @@ class ProfileController extends Controller
 		}
 		return response()->json(['error'=>'Email Verification failed!']);
 	}
+
+	public function primary(Email $email)
+	{
+		$user = User::firstWhere('id', $email->user_id);
+		$secondaryEmail = $user->email;
+		$user->email = $email->email;
+		$user->save();
+		$email->delete();
+
+		$newEmail = Email::create([
+			'user_id'           => $user->id,
+			'token'             => Str::random(60),
+			'email'             => $secondaryEmail,
+			'email_verified_at' => Carbon::now(),
+		]);
+		$newEmail->save();
+
+		return response()->json('Mail Successfuly changed to primary!', 200);
+	}
 }

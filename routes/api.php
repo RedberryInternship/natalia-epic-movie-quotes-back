@@ -61,5 +61,6 @@ Route::middleware('auth:sanctum')->group(function () {
 		Route::post('/email-create', 'create');
 		Route::delete('/email-destroy/{email:id}', 'destroy');
 		Route::post('/secondary-email-verify', 'verify');
+		Route::post('/make-email-primary/{email}', 'primary');
 	});
 });
