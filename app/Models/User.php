@@ -39,12 +39,12 @@ class User extends Authenticatable implements MustVerifyEmail
 		$this->notify(new ResetPasswordNotification($token));
 	}
 
-	public function movie()
+	public function movies()
 	{
 		return $this->hasMany(Movie::class, 'user_id');
 	}
 
-	public function email()
+	public function emails()
 	{
 		return $this->hasMany(Email::class, 'user_id');
 	}

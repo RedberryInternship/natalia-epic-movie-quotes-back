@@ -12,6 +12,7 @@ return new class extends Migration {
 			$table->string('email')->unique();
 			$table->timestamp('email_verified_at')->nullable();
 			$table->foreignId('user_id')->references('id')->on('users')->cascadeOnDelete();
+			$table->string('token');
 			$table->timestamps();
 		});
 	}
