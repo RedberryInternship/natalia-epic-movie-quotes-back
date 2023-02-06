@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Admin\MovieController;
+use App\Http\Controllers\Api\Admin\ProfileController;
 use App\Http\Controllers\Api\GoogleController;
 use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\Api\RegistrationController;
@@ -51,5 +52,15 @@ Route::middleware('auth:sanctum')->group(function () {
 		Route::get('/movie/{id}', 'get');
 		Route::put('/movie/{id}', 'update');
 		Route::delete('/movie/{id}', 'destroy');
+	});
+
+	//Profile
+	Route::controller(ProfileController::class)->group(function () {
+		Route::post('/user-update', 'update');
+		Route::get('/emails', 'get');
+		Route::post('/email-create', 'create');
+		Route::delete('/email-destroy/{email:id}', 'destroy');
+		Route::post('/secondary-email-verify', 'verify');
+		Route::post('/make-email-primary/{email}', 'primary');
 	});
 });
