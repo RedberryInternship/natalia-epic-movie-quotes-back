@@ -24,7 +24,12 @@ class LoginController extends Controller
 		{
 			$request->session()->regenerate();
 			$user = Auth::user();
-			return response(['user' => $user]);
+			if ($user->email_verified_at != null)
+			{
+				return response(['user' => $user]);
+			}
+
+			return response()->json(['message' => 'email is not verified'], 401);
 		}
 
 		$user = User::whereHas('emails', function ($query) use ($request) {
@@ -33,9 +38,14 @@ class LoginController extends Controller
 
 		if ($user && Hash::check($request->password, $user->password))
 		{
-			auth()->login($user);
-			$request->session()->regenerate();
-			return response(['user' => $user]);
+			if ($request->email_verified_at != null)
+			{
+				auth()->login($user);
+				$request->session()->regenerate();
+				return response(['user' => $user]);
+			}
+
+			return response()->json(['message' => 'email is not verified'], 401);
 		}
 
 		return response()->json(['message' => 'Invalid credentials'], 401);
