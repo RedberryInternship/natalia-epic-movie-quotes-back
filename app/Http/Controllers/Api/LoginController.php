@@ -20,7 +20,7 @@ class LoginController extends Controller
 		$field_type = filter_var($request->email, FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
 		$request->merge([$field_type => $request->email]);
 
-		if (auth()->attempt($request->only([$field_type, 'password'])))
+		if (auth()->attempt($request->only([$field_type, 'password']), $request->remember_me))
 		{
 			$request->session()->regenerate();
 			$user = Auth::user();
@@ -29,7 +29,7 @@ class LoginController extends Controller
 				return response(['user' => $user]);
 			}
 
-			return response()->json(['message' => 'email is not verified'], 401);
+			return response()->json(['message' => 'Not verified'], 401);
 		}
 
 		$user = User::whereHas('emails', function ($query) use ($request) {
@@ -45,7 +45,7 @@ class LoginController extends Controller
 				return response(['user' => $user]);
 			}
 
-			return response()->json(['message' => 'email is not verified'], 401);
+			return response()->json(['message' => 'Not verified'], 401);
 		}
 
 		return response()->json(['message' => 'Invalid credentials'], 401);

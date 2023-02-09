@@ -18,9 +18,7 @@ class Authenticate extends Middleware
 	{
 		if (!$request->expectsJson())
 		{
-			$user = User::find($request->id);
-			$user->markEmailAsVerified();
-			return env('FRONTEND_URL');
+			return '/login';
 		}
 	}
 }
