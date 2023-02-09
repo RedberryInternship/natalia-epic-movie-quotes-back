@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
@@ -22,6 +24,17 @@ class LoginController extends Controller
 		{
 			$request->session()->regenerate();
 			$user = Auth::user();
+			return response(['user' => $user]);
+		}
+
+		$user = User::whereHas('emails', function ($query) use ($request) {
+			$query->where('email', $request->email);
+		})->first();
+
+		if ($user && Hash::check($request->password, $user->password))
+		{
+			auth()->login($user);
+			$request->session()->regenerate();
 			return response(['user' => $user]);
 		}
 
