@@ -25,7 +25,7 @@ Route::post('/register', [RegistrationController::class, 'register']);
 
 //email verification
 Route::get('email/verify', [VerificationController::class, 'notice'])->name('verification.notice');
-Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->name('verification.verify')->middleware('auth', 'signed');
+Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->name('verification.verify')->middleware('verify');
 
 //reset password
 Route::post('/forgot-password', [ResetPasswordController::class, 'sendResetLink'])->name('password.email');
@@ -61,6 +61,6 @@ Route::middleware('auth:sanctum')->group(function () {
 		Route::post('/email-create', 'create');
 		Route::delete('/email-destroy/{email:id}', 'destroy');
 		Route::post('/secondary-email-verify', 'verify');
-		Route::post('/make-email-primary/{email}', 'primary');
+		Route::post('/make-email-primary/{email}', 'makePrimary');
 	});
 });
