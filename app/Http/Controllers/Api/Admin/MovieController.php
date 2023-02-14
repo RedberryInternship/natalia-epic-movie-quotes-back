@@ -12,7 +12,7 @@ class MovieController extends Controller
 {
 	public function index()
 	{
-		$userMovies = Movie::where('user_id', auth()->user()->id)->latest()->get();
+		$userMovies = Movie::where('user_id', 1)->latest()->get();
 		$movie = $userMovies->map(function ($movie) {
 			return [
 				'id'     => $movie->id,
@@ -30,15 +30,15 @@ class MovieController extends Controller
 		$movie = Movie::create([
 			'title'         => json_encode([
 				'en' => $request['title_en'],
-				'ka' => $request['title_ka'],
+				'ge' => $request['title_ge'],
 			]),
 			'director'      => json_encode([
 				'en' => $request['director_en'],
-				'ka' => $request['director_ka'],
+				'ge' => $request['director_ge'],
 			]),
 			'description'   => json_encode([
 				'en' => $request['description_en'],
-				'ka' => $request['description_ka'],
+				'ge' => $request['description_ge'],
 			]),
 			'genre'         => json_encode($request['genre']),
 
@@ -61,7 +61,17 @@ class MovieController extends Controller
 		$movie = Movie::where('id', $id)->first();
 		if (auth()->user()->id === $movie->user_id)
 		{
-			return response()->json($movie);
+			return [
+				'id'              => $movie->id,
+				'title'           => json_decode($movie->title),
+				'image'           => Storage::url($movie->image),
+				'year'            => $movie->year,
+				'budget'          => $movie->budget,
+				'director'        => json_decode($movie->director),
+				'description'     => json_decode($movie->description),
+				'quotes'          => $movie->quotes,
+				'genre'           => json_decode($movie->genre),
+			];
 		}
 
 		return response()->json('Unauthorized', 401);
@@ -74,16 +84,16 @@ class MovieController extends Controller
 		$attributes = [
 			'title'         => json_encode([
 				'en' => $request['title_en'],
-				'ka' => $request['title_ka'],
+				'ge' => $request['title_ge'],
 			]),
 
 			'director'      => json_encode([
 				'en' => $request['director_en'],
-				'ka' => $request['director_ka'],
+				'ge' => $request['director_ge'],
 			]),
 			'description'   => json_encode([
 				'en' => $request['description_en'],
-				'ka' => $request['description_ka'],
+				'ge' => $request['description_ge'],
 			]),
 			'genre'         => json_encode($request['genre']),
 
@@ -101,8 +111,9 @@ class MovieController extends Controller
 		return response()->json($movie);
 	}
 
-	public function destroy(Movie $movie)
+	public function destroy($id)
 	{
+		$movie = Movie::where('id', $id);
 		$movie->delete();
 		return response()->json('Movie deleted successfully', 200);
 	}

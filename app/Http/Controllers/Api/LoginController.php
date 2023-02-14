@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
+use App\Models\Email;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -36,9 +37,11 @@ class LoginController extends Controller
 			$query->where('email', $request->email);
 		})->first();
 
+		$email = Email::where('email', $request->email)->first();
+
 		if ($user && Hash::check($request->password, $user->password))
 		{
-			if ($request->email_verified_at != null)
+			if ($email->email_verified_at != null)
 			{
 				auth()->login($user);
 				$request->session()->regenerate();
