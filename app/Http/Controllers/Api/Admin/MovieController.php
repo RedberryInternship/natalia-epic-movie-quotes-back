@@ -12,7 +12,7 @@ class MovieController extends Controller
 {
 	public function index()
 	{
-		$userMovies = Movie::where('user_id', 1)->latest()->get();
+		$userMovies = Movie::where('user_id', auth()->user()->id)->latest()->get();
 		$movie = $userMovies->map(function ($movie) {
 			return [
 				'id'     => $movie->id,
