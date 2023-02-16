@@ -51,7 +51,7 @@ Route::middleware('auth:sanctum')->group(function () {
 		Route::get('/movie-list', 'index');
 		Route::post('/movies', 'store');
 		Route::get('/movie/{id}', 'get');
-		Route::put('/movie/{id}', 'update');
+		Route::post('/movie/{id}', 'update');
 		Route::delete('/movie/{id}', 'destroy');
 	});
 
