@@ -73,4 +73,8 @@ Route::middleware('auth:sanctum')->group(function () {
 		Route::post('/secondary-email-verify', 'verify');
 		Route::post('/make-email-primary/{email}', 'makePrimary');
 	});
+
+	Route::controller(CommentController::class)->group(function () {
+		Route::post('comment/{quote:id}', 'store');
+	});
 });
