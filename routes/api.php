@@ -57,10 +57,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
 	//Quote Crud
 	Route::controller(QuoteController::class)->group(function () {
-		Route::get('/quotes', 'index');
+		Route::get('/quotes/{id}', 'index');
 		Route::post('/quote', 'store');
 		Route::get('/quote/{id}', 'get');
-		Route::put('/quote/{id}', 'update');
+		Route::post('/quote-update', 'update');
 		Route::delete('/quote/{id}', 'destroy');
 	});
 

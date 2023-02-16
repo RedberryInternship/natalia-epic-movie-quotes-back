@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -43,7 +42,7 @@ class GoogleController extends Controller
 	   		}
 	   		else
 	   		{
-	   			Auth::login($user);
+	   			auth()->loginUsingId($user->id);
 	   			$cookie = Cookie::make('authenticated', 1);
 
 	   			return redirect(env('FRONTEND_URL') . '/news-feed')->withCookie($cookie);
