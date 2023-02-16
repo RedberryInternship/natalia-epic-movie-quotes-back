@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\Admin\MovieController;
 use App\Http\Controllers\Api\Admin\ProfileController;
+use App\Http\Controllers\Api\Admin\QuoteController;
 use App\Http\Controllers\Api\GoogleController;
 use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\Api\RegistrationController;
@@ -52,6 +53,15 @@ Route::middleware('auth:sanctum')->group(function () {
 		Route::get('/movie/{id}', 'get');
 		Route::put('/movie/{id}', 'update');
 		Route::delete('/movie/{id}', 'destroy');
+	});
+
+	//Quote Crud
+	Route::controller(QuoteController::class)->group(function () {
+		Route::get('/quotes/{id}', 'index');
+		Route::post('/quote', 'store');
+		Route::get('/quote/{id}', 'get');
+		Route::post('/quote-update', 'update');
+		Route::delete('/quote/{id}', 'destroy');
 	});
 
 	//Profile

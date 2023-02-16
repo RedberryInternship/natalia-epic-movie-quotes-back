@@ -67,9 +67,17 @@ class ProfileController extends Controller
 		$email = Email::where('token', request()[0])->first();
 		if (isset($email))
 		{
-			$email->email_verified_at = Carbon::now();
-			$email->save();
-			return response()->json('Email verified Successfully!', 200);
+			if ($email->email_verified_at === null)
+			{
+				$email->email_verified_at = Carbon::now();
+				$email->save();
+				return response()->json('Email verified Successfully!', 200);
+			}
+			
+			if ($email->email_verified_at !== null)
+			{
+				return response()->json('Email is already Verified!', 405);
+			}
 		}
 		return response()->json(['error'=>'Email Verification failed!']);
 	}
