@@ -59,6 +59,21 @@ class QuoteController extends Controller
 		return response()->json($quote, 200);
 	}
 
+	public function getAll()
+	{
+		$quotes = Quote::with('user')->with('comments')->with('comments.user')->with('movie')->orderBy('created_at', 'desc')->get()
+				->map(function ($quote) {
+					if (is_string($quote->movie->title))
+					{
+						$quote->movie->title = json_decode($quote->movie->title);
+					}
+					$quote->quote = json_decode($quote->quote);
+					$quote->image = Storage::url($quote->image);
+					return $quote;
+				});
+		return response()->json($quotes, 200);
+	}
+
 	public function update(UpdateQuoteRequest $request)
 	{
 		$quote = Quote::where('id', $request->id)->first();

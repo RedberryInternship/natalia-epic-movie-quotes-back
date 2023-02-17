@@ -9,9 +9,11 @@ class Comment extends Model
 {
 	use HasFactory;
 
+	protected $guarded = [];
+
 	public function quote()
 	{
-        return $this->belongsTo(Quote::class);
+		return $this->belongsTo(Quote::class);
 	}
 
 	public function user()

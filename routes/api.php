@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\Admin\MovieController;
 use App\Http\Controllers\Api\Admin\ProfileController;
 use App\Http\Controllers\Api\Admin\QuoteController;
+use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\GoogleController;
 use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\Api\RegistrationController;
@@ -57,6 +58,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
 	//Quote Crud
 	Route::controller(QuoteController::class)->group(function () {
+		Route::get('/quotes', 'getAll');
 		Route::get('/quotes/{id}', 'index');
 		Route::post('/quote', 'store');
 		Route::get('/quote/{id}', 'get');
