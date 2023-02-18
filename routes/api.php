@@ -60,10 +60,11 @@ Route::middleware('auth:sanctum')->group(function () {
 	Route::controller(QuoteController::class)->group(function () {
 		Route::get('/quotes', 'getAll');
 		Route::get('/quotes/{id}', 'index');
-		Route::post('/quote', 'store');
 		Route::get('/quote/{id}', 'get');
+		Route::post('/quote', 'store');
 		Route::post('/quote-update', 'update');
 		Route::delete('/quote/{id}', 'destroy');
+		Route::post('/quotes/search', 'search');
 	});
 
 	//Profile
@@ -77,6 +78,6 @@ Route::middleware('auth:sanctum')->group(function () {
 	});
 
 	Route::controller(CommentController::class)->group(function () {
-		Route::post('comment/{quote:id}', 'store');
+		Route::post('/quotes/{quote:id}/comment', 'store');
 	});
 });
