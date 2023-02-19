@@ -16,6 +16,7 @@ class QuoteController extends Controller
 		$quotes = Quote::where('movie_id', $id)
 						->with('movie')
 						->with('comments')
+						->with('likes')
 						->orderBy('created_at', 'desc')
 						->get()
 						->map(function ($quote) {
@@ -54,6 +55,7 @@ class QuoteController extends Controller
 			->with('movie')
 			->with('comments')
 			->with('comments.user')
+			->with('likes')
 			->get()
 			->map(function ($quote) {
 				$quote->quote = json_decode($quote->quote);

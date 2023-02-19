@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Log;
 use Laravel\Socialite\Facades\Socialite;
 
 class GoogleController extends Controller
@@ -48,9 +49,10 @@ class GoogleController extends Controller
 	   			return redirect(env('FRONTEND_URL') . '/news-feed')->withCookie($cookie);
 	   		}
 	   	}
-	   	catch(\Throwable $th)
+	   	catch (\Throwable $th)
 	   	{
-	   		throw($th);
+	   		Log::error($th->getMessage());
+	   		throw $th;
 	   	}
 	   }
 }
