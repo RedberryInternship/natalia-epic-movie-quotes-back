@@ -65,7 +65,7 @@ class QuoteController extends Controller
 
 	public function getAll()
 	{
-		$quotes = Quote::with('user')->with('comments')->with('comments.user')->with('movie')->orderBy('created_at', 'desc')->get()
+		$quotes = Quote::with('user')->with('comments')->with('comments.user')->with('movie')->with('likes')->orderBy('created_at', 'desc')->get()
 				->map(function ($quote) {
 					if (is_string($quote->movie->title))
 					{

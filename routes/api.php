@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\Admin\ProfileController;
 use App\Http\Controllers\Api\Admin\QuoteController;
 use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\GoogleController;
+use App\Http\Controllers\Api\LikeController;
 use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\Api\RegistrationController;
 use App\Http\Controllers\Api\ResetPasswordController;
@@ -75,6 +76,10 @@ Route::middleware('auth:sanctum')->group(function () {
 		Route::delete('/email-destroy/{email:id}', 'destroy');
 		Route::post('/secondary-email-verify', 'verify');
 		Route::post('/make-email-primary/{email}', 'makePrimary');
+	});
+
+	Route::controller(LikeController::class)->group(function () {
+		Route::post('quotes/{quote:id}/like', 'like');
 	});
 
 	Route::controller(CommentController::class)->group(function () {
