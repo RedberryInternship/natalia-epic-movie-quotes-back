@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\Api\RegistrationController;
 use App\Http\Controllers\Api\ResetPasswordController;
 use App\Http\Controllers\Api\VerificationController;
+use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -40,6 +41,8 @@ Route::prefix('google/auth')->controller(GoogleController::class)->group(functio
 	Route::get('redirect', 'redirect')->name('google.redirect');
 	Route::get('callback', 'callBackFromGoogle')->name('google.callback');
 });
+
+Broadcast::routes(['prefix' => 'api', 'middleware' => 'auth:sanctum']);
 
 // Auth routes
 Route::middleware('auth:sanctum')->group(function () {

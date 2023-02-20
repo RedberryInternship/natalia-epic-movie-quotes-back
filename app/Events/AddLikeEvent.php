@@ -21,7 +21,7 @@ class AddLikeEvent implements ShouldBroadcast
 
 	public function broadcastOn()
 	{
-		return new Channel('like-channel');
+		return new Channel('likes');
 	}
 
 	public function broadcastAs()

@@ -10,6 +10,8 @@ class StoreCommentRequest extends FormRequest
 	{
 		return [
 			'body' => 'required',
+			'from' => 'required',
+			'to'   => 'required',
 		];
 	}
 }
