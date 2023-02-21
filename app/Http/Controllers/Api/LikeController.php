@@ -25,9 +25,9 @@ class LikeController extends Controller
 			if ($request->to !== auth()->user()->id)
 			{
 				$notification = Notification::create([
-					'to'   => $request->to,
-					'from'  => $request->from,
-					'type'     => 'like',
+					'to'          => $request->to,
+					'from'        => $request->from,
+					'type'        => 'like',
 					'is_read'     => false,
 				]);
 			}

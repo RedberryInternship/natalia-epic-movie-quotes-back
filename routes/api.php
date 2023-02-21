@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\GoogleController;
 use App\Http\Controllers\Api\LikeController;
 use App\Http\Controllers\Api\LoginController;
+use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\RegistrationController;
 use App\Http\Controllers\Api\ResetPasswordController;
 use App\Http\Controllers\Api\VerificationController;
@@ -42,7 +43,7 @@ Route::prefix('google/auth')->controller(GoogleController::class)->group(functio
 	Route::get('callback', 'callBackFromGoogle')->name('google.callback');
 });
 
-Broadcast::routes(['prefix' => 'api', 'middleware' => 'auth:sanctum']);
+Broadcast::routes(['middleware' => 'auth:sanctum']);
 
 // Auth routes
 Route::middleware('auth:sanctum')->group(function () {
@@ -87,5 +88,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
 	Route::controller(CommentController::class)->group(function () {
 		Route::post('/quotes/{quote:id}/comment', 'store');
+	});
+
+	Route::controller(NotificationController::class)->group(function () {
+		Route::get('/notifications', 'get');
+		Route::get('/notifications/read', 'get');
 	});
 });
