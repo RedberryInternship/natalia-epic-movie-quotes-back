@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreQuoteRequest;
 use App\Http\Requests\Admin\UpdateQuoteRequest;
 use App\Models\Quote;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class QuoteController extends Controller
@@ -13,7 +14,7 @@ class QuoteController extends Controller
 	public function index($id)
 	{
 		$quotes = Quote::where('movie_id', $id)
-						->with('movie')
+						->with('movie', 'comments', 'likes')
 						->orderBy('created_at', 'desc')
 						->get()
 						->map(function ($quote) {
@@ -48,8 +49,7 @@ class QuoteController extends Controller
 	public function get($id)
 	{
 		$quote = Quote::where('id', $id)
-			->with('user')
-			->with('movie')
+			->with('user', 'movie', 'comments', 'comments.user', 'likes')
 			->get()
 			->map(function ($quote) {
 				$quote->quote = json_decode($quote->quote);
@@ -57,6 +57,53 @@ class QuoteController extends Controller
 				return $quote;
 			});
 		return response()->json($quote, 200);
+	}
+
+	public function getAll(Request $request)
+	{
+		$quotes = Quote::with('user', 'comments', 'comments.user', 'movie', 'likes')->orderBy('created_at', 'desc')->skip($request->range)->take(2)->get()
+				->map(function ($quote) {
+					if (is_string($quote->movie->title))
+					{
+						$quote->movie->title = json_decode($quote->movie->title);
+					}
+					$quote->quote = json_decode($quote->quote);
+					$quote->image = Storage::url($quote->image);
+					return $quote;
+				});
+		return response()->json($quotes, 200);
+	}
+
+	public function search(Request $request)
+	{
+		$search = $request->search;
+		if ($search[0] == '@')
+		{
+			$search = substr($search, 1);
+			$quotes = Quote::whereHas('movie', function ($query) use ($search) {
+				$query->where('title->en', 'like', $search . '%')
+					->orWhere('title->ge', 'like', $search . '%');
+			})->get();
+		}
+		elseif ($search[0] == '#')
+		{
+			$search = substr($search, 1);
+			$quotes = Quote::query()
+				->where('quote->en', 'like', $search . '%')
+				->orWhere('quote->ge', 'like', $search . '%')
+				->get();
+		}
+		else
+		{
+			$quotes = Quote::whereHas('movie', function ($query) use ($search) {
+				$query->where('title->en', 'like', $search . '%')
+					->orWhere('title->ge', 'like', $search . '%');
+			})->orWhere('quote->en', 'like', $search . '%')
+				->orWhere('quote->ge', 'like', $search . '%')
+				->get();
+		}
+
+		return response()->json($quotes->load('user', 'movie', 'comments.user'));
 	}
 
 	public function update(UpdateQuoteRequest $request)

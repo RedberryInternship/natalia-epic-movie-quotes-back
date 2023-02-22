@@ -73,13 +73,13 @@ class ProfileController extends Controller
 				$email->save();
 				return response()->json('Email verified Successfully!', 200);
 			}
-			
+
 			if ($email->email_verified_at !== null)
 			{
 				return response()->json('Email is already Verified!', 405);
 			}
 		}
-		return response()->json(['error'=>'Email Verification failed!']);
+		return response()->json('Email Verification failed!', 401);
 	}
 
 	public function makePrimary(Email $email)
