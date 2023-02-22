@@ -14,9 +14,7 @@ class QuoteController extends Controller
 	public function index($id)
 	{
 		$quotes = Quote::where('movie_id', $id)
-						->with('movie')
-						->with('comments')
-						->with('likes')
+						->with('movie', 'comments', 'likes')
 						->orderBy('created_at', 'desc')
 						->get()
 						->map(function ($quote) {
@@ -51,11 +49,7 @@ class QuoteController extends Controller
 	public function get($id)
 	{
 		$quote = Quote::where('id', $id)
-			->with('user')
-			->with('movie')
-			->with('comments')
-			->with('comments.user')
-			->with('likes')
+			->with('user', 'movie', 'comments', 'comments.user', 'likes')
 			->get()
 			->map(function ($quote) {
 				$quote->quote = json_decode($quote->quote);
@@ -67,7 +61,7 @@ class QuoteController extends Controller
 
 	public function getAll(Request $request)
 	{
-		$quotes = Quote::with('user')->with('comments')->with('comments.user')->with('movie')->with('likes')->orderBy('created_at', 'desc')->skip($request->range)->take(2)->get()
+		$quotes = Quote::with('user', 'comments', 'comments.user', 'movie', 'likes')->orderBy('created_at', 'desc')->skip($request->range)->take(2)->get()
 				->map(function ($quote) {
 					if (is_string($quote->movie->title))
 					{
