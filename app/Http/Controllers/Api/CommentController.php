@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Events\AddComment;
+use App\Events\NotificationsEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCommentRequest;
 use App\Models\Notification;
@@ -22,11 +23,12 @@ class CommentController extends Controller
 		if ($request->to !== auth()->user()->id)
 		{
 			$notification = Notification::create([
-				'from' => $request->from,
-				'to'   => $request->to,
-				'type' => 'comment',
+				'from'    => $request->from,
+				'to'      => $request->to,
+				'type'    => 'comment',
 				'is_read' => false,
 			]);
+			event(new NotificationsEvent($notification));
 		}
 
 		return response()->json('Comment Added Successfully!', 200);

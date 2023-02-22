@@ -63,7 +63,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
 	//Quote Crud
 	Route::controller(QuoteController::class)->group(function () {
-		Route::get('/quotes', 'getAll');
+		Route::post('/quotes', 'getAll');
 		Route::get('/quotes/{id}', 'index');
 		Route::get('/quote/{id}', 'get');
 		Route::post('/quote', 'store');
@@ -92,6 +92,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
 	Route::controller(NotificationController::class)->group(function () {
 		Route::get('/notifications', 'get');
-		Route::get('/notifications/read', 'get');
+		Route::get('/notifications/read', 'markAsRead');
 	});
 });

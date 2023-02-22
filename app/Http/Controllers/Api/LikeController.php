@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Events\AddLikeEvent;
+use App\Events\NotificationsEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreLikeRequest;
 use App\Models\Like;
@@ -30,6 +31,8 @@ class LikeController extends Controller
 					'type'        => 'like',
 					'is_read'     => false,
 				]);
+
+				event(new NotificationsEvent($notification));
 			}
 
 			return response()->json(['message' => 'like'], 200);

@@ -56,7 +56,7 @@ class QuoteController extends Controller
 			->with('comments')
 			->with('comments.user')
 			->with('likes')
-			->paginate(2)
+			->get()
 			->map(function ($quote) {
 				$quote->quote = json_decode($quote->quote);
 				$quote->image = Storage::url($quote->image);
@@ -65,9 +65,9 @@ class QuoteController extends Controller
 		return response()->json($quote, 200);
 	}
 
-	public function getAll()
+	public function getAll(Request $request)
 	{
-		$quotes = Quote::with('user')->with('comments')->with('comments.user')->with('movie')->with('likes')->orderBy('created_at', 'desc')->paginate(2)
+		$quotes = Quote::with('user')->with('comments')->with('comments.user')->with('movie')->with('likes')->orderBy('created_at', 'desc')->skip($request->range)->take(2)->get()
 				->map(function ($quote) {
 					if (is_string($quote->movie->title))
 					{

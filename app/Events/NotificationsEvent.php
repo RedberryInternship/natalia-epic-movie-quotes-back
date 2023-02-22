@@ -2,25 +2,26 @@
 
 namespace App\Events;
 
-use Illuminate\Broadcasting\Channel;
+use App\Models\Notification;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class AddLikeEvent implements ShouldBroadcast
+class NotificationsEvent implements ShouldBroadcast
 {
 	use Dispatchable, InteractsWithSockets, SerializesModels;
 
-	public $like;
+	public $notification;
 
-	public function __construct($like)
+	public function __construct(Notification $notification)
 	{
-		$this->like = $like;
+		$this->notification = $notification;
 	}
 
 	public function broadcastOn()
 	{
-		return new Channel('likes');
+		return new PrivateChannel('notifications.' . $this->notification->to);
 	}
 }

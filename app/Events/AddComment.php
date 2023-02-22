@@ -23,9 +23,4 @@ class AddComment implements ShouldBroadcast
 	{
 		return new Channel('comments');
 	}
-
-	public function broadcastAs()
-	{
-		return 'new-comment';
-	}
 }
