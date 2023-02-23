@@ -32,9 +32,11 @@ class GoogleController extends Controller
 
 	   			auth()->loginUsingId($saveUser->id);
 	   			$cookie = Cookie::make('authenticated', 1);
+
+	   			request()->session()->regenerate();
 	   			if (auth()->check())
 	   			{
-	   				return redirect(env('FRONTEND_URL') . '/news-feed')->with($cookie);
+	   				return redirect(config('app.frontend_url') . '/news-feed')->with($cookie);
 	   			}
 	   			else
 	   			{
@@ -43,10 +45,10 @@ class GoogleController extends Controller
 	   		}
 	   		else
 	   		{
-	   			auth()->loginUsingId($user->id);
+	   			auth()->login($user);
 	   			$cookie = Cookie::make('authenticated', 1);
-
-	   			return redirect(env('FRONTEND_URL') . '/news-feed')->withCookie($cookie);
+	   			request()->session()->regenerate();
+	   			return redirect(config('app.frontend_url') . '/news-feed')->withCookie($cookie);
 	   		}
 	   	}
 	   	catch (\Throwable $th)

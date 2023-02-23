@@ -61,7 +61,9 @@ class QuoteController extends Controller
 
 	public function getAll(Request $request)
 	{
-		$quotes = Quote::with('user', 'comments', 'comments.user', 'movie', 'likes')->orderBy('created_at', 'desc')->skip($request->range)->take(2)->get()
+		$quotes = Quote::with('user', 'comments', 'comments.user', 'movie', 'likes')
+			->orderBy('created_at', 'desc')
+			->skip($request->range)->take(2)->get()
 				->map(function ($quote) {
 					if (is_string($quote->movie->title))
 					{
@@ -71,7 +73,8 @@ class QuoteController extends Controller
 					$quote->image = Storage::url($quote->image);
 					return $quote;
 				});
-		return response()->json($quotes, 200);
+		$quote = Quote::count();
+		return response()->json(['quotes' => $quotes, 'quote_count' => $quote], 200);
 	}
 
 	public function search(Request $request)
