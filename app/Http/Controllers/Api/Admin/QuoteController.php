@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreQuoteRequest;
 use App\Http\Requests\Admin\UpdateQuoteRequest;
+use App\Http\Resources\GetAllQuoteResource;
+use App\Http\Resources\QuoteResource;
 use App\Models\Quote;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -16,14 +18,9 @@ class QuoteController extends Controller
 		$quotes = Quote::where('movie_id', $id)
 						->with('movie', 'comments', 'likes')
 						->orderBy('created_at', 'desc')
-						->get()
-						->map(function ($quote) {
-							$quote->quote = json_decode($quote->quote);
-							$quote->image = Storage::url($quote->image);
-							return $quote;
-						});
+						->get();
 
-		return response()->json($quotes);
+		return response()->json(QuoteResource::collection($quotes));
 	}
 
 	public function store(StoreQuoteRequest $request)
@@ -63,18 +60,9 @@ class QuoteController extends Controller
 	{
 		$quotes = Quote::with('user', 'comments', 'comments.user', 'movie', 'likes')
 			->orderBy('created_at', 'desc')
-			->skip($request->range)->take(3)->get()
-				->map(function ($quote) {
-					if (is_string($quote->movie->title))
-					{
-						$quote->movie->title = json_decode($quote->movie->title);
-					}
-					$quote->quote = json_decode($quote->quote);
-					$quote->image = Storage::url($quote->image);
-					return $quote;
-				});
+			->skip($request->range)->take(3)->get();
 		$quote = Quote::count();
-		return response()->json(['quotes' => $quotes, 'quote_count' => $quote], 200);
+		return response()->json(['quotes' => GetAllQuoteResource::collection($quotes), 'quote_count' => $quote], 200);
 	}
 
 	public function search(Request $request)
