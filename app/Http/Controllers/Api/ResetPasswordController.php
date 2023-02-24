@@ -25,7 +25,7 @@ class ResetPasswordController extends Controller
 
 	public function showResetForm($token)
 	{
-		return redirect(env('FRONTEND_URL') . '?token=' . $token . '&email=' . request()->email);
+		return redirect(config('app.frontend_url') . '?token=' . $token . '&email=' . request()->email);
 	}
 
 	public function resetPassword(storeResetPasswordRequest $request)
@@ -43,6 +43,6 @@ class ResetPasswordController extends Controller
 		);
 		return $status === Password::PASSWORD_RESET
 					? response()->json('Password has changed successfully!', 200)
-					: response()->json(['email' => [__($status)]]);
+					: response()->json(['email' => [__($status)]], 404);
 	}
 }

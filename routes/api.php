@@ -14,17 +14,6 @@ use App\Http\Controllers\Api\VerificationController;
 use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
-
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/register', [RegistrationController::class, 'register']);
 
@@ -41,6 +30,7 @@ Route::post('/reset-password', [ResetPasswordController::class, 'resetPassword']
 Route::prefix('google/auth')->controller(GoogleController::class)->group(function () {
 	Route::get('redirect', 'redirect')->name('google.redirect');
 	Route::get('callback', 'callBackFromGoogle')->name('google.callback');
+	Route::post('login', 'login')->name('google.login');
 });
 
 Broadcast::routes(['middleware' => 'auth:sanctum']);
@@ -55,6 +45,7 @@ Route::middleware('auth:sanctum')->group(function () {
 	//movie crud
 	Route::controller(MovieController::class)->group(function () {
 		Route::get('/movie-list', 'index');
+		Route::post('/movie-list/search', 'search');
 		Route::post('/movies', 'store');
 		Route::get('/movie/{id}', 'get');
 		Route::post('/movie/{id}', 'update');

@@ -34,7 +34,7 @@ class ProfileController extends Controller
 			$user->password = Hash::make($attributes['password']);
 		}
 		$user->save();
-		return response()->json('profile updated', 200);
+		return response()->json($user, 200);
 	}
 
 	public function create(addEmailRequest $request)

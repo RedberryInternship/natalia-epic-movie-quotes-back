@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Api\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreMovieRequest;
 use App\Http\Requests\Admin\UpdateMovieRequest;
+use App\Http\Resources\MovieResource;
 use App\Models\Movie;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class MovieController extends Controller
@@ -109,6 +111,25 @@ class MovieController extends Controller
 		$movie->update($attributes);
 
 		return response()->json($movie);
+	}
+
+	public function search(Request $request)
+	{
+		$search = $request->input('search');
+		$movies = Movie::where('user_id', auth()->user()->id)
+		->where(function ($query) use ($search) {
+			$query->where('title->en', 'like', $search . '%')
+				->orWhere('title->ge', 'like', $search . '%');
+		})
+		->orderBy('created_at', 'desc')
+		->get();
+
+		if (!$movies)
+		{
+			return response()->json('Error has occurred', 422);
+		}
+
+		return MovieResource::collection($movies);
 	}
 
 	public function destroy($id)
