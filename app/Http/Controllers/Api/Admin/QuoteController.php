@@ -63,7 +63,7 @@ class QuoteController extends Controller
 	{
 		$quotes = Quote::with('user', 'comments', 'comments.user', 'movie', 'likes')
 			->orderBy('created_at', 'desc')
-			->skip($request->range)->take(2)->get()
+			->skip($request->range)->take(3)->get()
 				->map(function ($quote) {
 					if (is_string($quote->movie->title))
 					{

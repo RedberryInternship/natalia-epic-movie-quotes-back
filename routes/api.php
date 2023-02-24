@@ -14,7 +14,6 @@ use App\Http\Controllers\Api\VerificationController;
 use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
 
-
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/register', [RegistrationController::class, 'register']);
 
@@ -46,6 +45,7 @@ Route::middleware('auth:sanctum')->group(function () {
 	//movie crud
 	Route::controller(MovieController::class)->group(function () {
 		Route::get('/movie-list', 'index');
+		Route::post('/movie-list/search', 'search');
 		Route::post('/movies', 'store');
 		Route::get('/movie/{id}', 'get');
 		Route::post('/movie/{id}', 'update');

@@ -37,7 +37,7 @@ class GoogleController extends Controller
 			auth()->login($saveUser);
 			if (auth()->check())
 			{
-				$cookie = Cookie::make('authenticated', 1);					
+				$cookie = Cookie::make('authenticated', 1);
 				return response('', 200)->withCookie($cookie);
 			}
 			else

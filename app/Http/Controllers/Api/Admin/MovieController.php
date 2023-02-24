@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreMovieRequest;
 use App\Http\Requests\Admin\UpdateMovieRequest;
 use App\Models\Movie;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class MovieController extends Controller
@@ -109,6 +110,27 @@ class MovieController extends Controller
 		$movie->update($attributes);
 
 		return response()->json($movie);
+	}
+
+	public function search(Request $request)
+	{
+		$search = $request->input('search');
+		$movies = Movie::where('user_id', auth()->user()->id)
+				->where('title->en', 'like', $search . '%')
+				->orWhere('title->ge', 'like', $search . '%')
+				->get()
+				->map(function ($movie) {
+					$movie->title = json_decode($movie->title);
+					$movie->image = Storage::url($movie->image);
+					return $movie;
+				});
+
+		if (!$movies)
+		{
+			return response()->json('Error has occurred', 422);
+		}
+
+		return response()->json('success', 201);
 	}
 
 	public function destroy($id)
