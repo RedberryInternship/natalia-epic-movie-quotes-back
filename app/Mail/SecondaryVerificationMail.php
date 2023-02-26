@@ -16,10 +16,13 @@ class SecondaryVerificationMail extends Mailable
 
 	public $email;
 
-	public function __construct(User $user, Email $email)
+	public $local;
+
+	public function __construct(User $user, Email $email, $local)
 	{
 		$this->user = $user;
 		$this->email = $email;
+		$this->local = $local;
 	}
 
 	public function build()

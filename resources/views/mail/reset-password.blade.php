@@ -13,10 +13,10 @@
            <div style=" margin-bottom: 65px text-align: center; font-size: 12px; margin:auto">
                <h1 style="color:#DDCCAA; font-weight: 500">{{ __('mail.movie_qutes') }}</h1>
            </div>
-           <p style="top: 25px">{{ __('mail.hola') }} </p>
+           <p style="top: 25px">{{ __('mail.hola') }} ! </p>
            <p style="margin-bottom: 32px">{{ __('mail.welcome_text') }}</p>
            <a href="{{ $url }}"
-               style=" padding:7px 10px; text-align:center; max-width: 128px; color:white;background:#E31221;text-decoration: none;font-weight: 400; border-radius:5px">{{ __('mail.reset_password') }}</a>
+               style=" padding:7px 10px; text-align:center; max-width: 200px; color:white;background:#E31221;text-decoration: none;font-weight: 400; border-radius:5px">{{ __('mail.reset_password') }}</a>
            <p >{{ __('mail.if_doesnot_work') }}</p>
            <a href="{{ $url }}"
                style="margin-bottom: 20px;color:#DDCCAA;text-decoration: none;cursor: pointer">

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\storeEmailRequest;
 use App\Http\Requests\storeResetPasswordRequest;
+use App\Models\User;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
@@ -14,18 +15,20 @@ class ResetPasswordController extends Controller
 {
 	public function sendResetLink(storeEmailRequest $request)
 	{
+		app()->setLocale($request->local);
 		$request->validated();
 		$status = Password::sendResetLink(
-			$request->only('email')
+			$request->only('email'),
 		);
+
 		return $status === Password::RESET_LINK_SENT
 		? response()->json('Password reset link sent!', 200)
 		 : response()->json('email not found', 404);
 	}
 
-	public function showResetForm($token)
+	public function showResetForm($local, $token)
 	{
-		return redirect(config('app.frontend_url') . '?token=' . $token . '&email=' . request()->email);
+		return redirect(config('app.frontend_url') . '/' . $local . '?token=' . $token . '&email=' . request()->email);
 	}
 
 	public function resetPassword(storeResetPasswordRequest $request)
