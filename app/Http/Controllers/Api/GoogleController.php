@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cookie;
 use Laravel\Socialite\Facades\Socialite;
 
 class GoogleController extends Controller
@@ -37,8 +36,7 @@ class GoogleController extends Controller
 			auth()->login($saveUser);
 			if (auth()->check())
 			{
-				$cookie = Cookie::make('authenticated', 1);
-				return response('', 200)->withCookie($cookie);
+				return response('', 200);
 			}
 			else
 			{
@@ -48,8 +46,7 @@ class GoogleController extends Controller
 		else
 		{
 			auth()->login($user);
-			$cookie = Cookie::make('authenticated', 1);
-			return  response('', 200)->withCookie($cookie);
+			return  response('', 200);
 		}
 	}
 }

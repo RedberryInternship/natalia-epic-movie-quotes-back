@@ -18,7 +18,7 @@ class RegistrationController extends Controller
 			'email'    => $request->email,
 			'password' => Hash::make($request->password),
 		]);
-
+		app()->setLocale($request->local);
 		event(new Registered($user));
 		$user->save();
 

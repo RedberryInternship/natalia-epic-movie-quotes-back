@@ -39,14 +39,17 @@ class ProfileController extends Controller
 
 	public function create(addEmailRequest $request)
 	{
-		$attributes = $request->validated();
+		$local = $request->local;
+		app()->setLocale($local);
+		$validated = $request->validated();
+		$attributes = $validated['email'];
 		$user = User::findOrFail(auth()->id());
 		$attributes['user_id'] = $user->id;
 		$attributes['token'] = Str::random(60);
 		Email::create($attributes);
 		$email = Email::where('email', $request->email)->first();
 
-		Mail::to($email->email)->send(new SecondaryVerificationMail($user, $email));
+		Mail::to($email->email)->send(new SecondaryVerificationMail($user, $email, $local));
 		return response('Email Created successfully and confirmation link was sent to the user!', 200);
 	}
 

@@ -23,7 +23,7 @@ Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'
 
 //reset password
 Route::post('/forgot-password', [ResetPasswordController::class, 'sendResetLink'])->name('password.email');
-Route::get('/reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+Route::get('{locale}/reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
 Route::post('/reset-password', [ResetPasswordController::class, 'resetPassword'])->name('password.update');
 
 //Google authentication
