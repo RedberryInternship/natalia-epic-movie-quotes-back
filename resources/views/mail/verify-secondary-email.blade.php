@@ -6,24 +6,24 @@
            }
        }
    </style>
-
-   <body style="background: #181624; color:white;font-family: 'Montserrat', sans-serif; word-wrap: break-word;">
-       <div style="  justify-content: center; padding:3% 10% ">
-            <div style="width:100%; text-align:center; padding-bottom:50px">
-                <img src="{{ asset('images/notification.png') }}" alt="notification">
-                <h1 style="font-size:18px;color:#DDCCAA; padding-top:9px">{{ __('mail.movie_qutes') }}</h1>
-            </div>
-           <p style="top: 30px">{{ __('mail.hola') }} {{ $user->name }} ! </p>
-           <p style="margin-bottom: 38px">{{ __('mail.verify_welcome_text') }}</p>
-           <a href="{{  config('app.frontend_url'). '/'. $local.'/profile?token='.$email->token.'&email='.$email->email }}"
-               style=" padding:7px 10px; text-align:center; max-width: 200px; color:white;background:#E31221;text-decoration: none;font-weight: 400; border-radius:5px">{{ __('mail.verify_account') }}</a>
-           <p style="margin-bottom: 20px" >{{ __('mail.if_doesnot_work') }}</p>
-           <a href="{{ config('app.frontend_url').  '/'.$local.'/profile?token='.$email->token.'&email='.$email->email }}"
-               style="margin-bottom: 20px;color:#DDCCAA;text-decoration: none;cursor: pointer">
-            {{  config('app.frontend_url'). '/'. $local.'/profile?token='.$email->token.'&email='.$email->email }}   </a>
-           <p>{{ __('mail.if_any_problems') }}</p>
+   <body style="background: #181624; color:white;font-family: 'Montserrat', sans-serif; word-wrap: break-word; ">
+    <div style="padding:3% 9%">
+        <div style="text-align: center;font-size: 12px;margin-bottom: 75px">
+            
+            <h1 style="color:#DDCCAA; font-weight: 500">{{ __('mail.movie_qutes') }}</h1>
+        </div>
+        <p style="margin-bottom: 26px">{{ __('mail.hola') }} {{ $user->name }} ! </p>
+        <p style="margin-bottom: 34px">{{ __('mail.verify_welcome_text') }}
+        </p>
+        <a href={{  config('app.frontend_url'). '/'. $local.'/profile?token='.$email->token.'&email='.$email->email }}
+            style="max-width: 200px; padding:7px 13px;color:white;background:#E31221;text-decoration: none;font-weight: 400;
+            border-radius:4px">{{ __('mail.verify_account') }}</a>
+        <p style="margin-bottom: 24px;margin-top:40px">{{ __('mail.if_doesnot_work') }}</p>
+        <a href={{  config('app.frontend_url'). '/'. $local.'/profile?token='.$email->token.'&email='.$email->email }}
+            style="margin-bottom: 40px;color:#DDCCAA;text-decoration: none;cursor: pointer">
+            {{ $url }}</a>
+            <p style="margin-bottom: 24px">{{ __('mail.if_any_problems') }}</p>
            <p>{{ __('mail.movie_quotes_crew') }}</p>
-       </div>
-      
-   </body>
+    </div>
+    </body>
 </html>

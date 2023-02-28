@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
 use App\Events\AddLikeEvent;
 use App\Events\NotificationsEvent;
@@ -13,7 +13,15 @@ class LikeController extends Controller
 {
 	public function like(StoreLikeRequest $request, $id)
 	{
-		event(new AddLikeEvent($request->all()));
+		try
+		{
+			event(new AddLikeEvent($request->all()));
+		}
+		catch (\Throwable $e)
+		{
+			return response()->json(['message' => 'error'], 500);
+		}
+
 		$like = Like::where('quote_id', $id)->where('user_id', auth()->user()->id)->first();
 
 		if (empty($like))
