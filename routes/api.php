@@ -1,16 +1,16 @@
 <?php
 
-use App\Http\Controllers\Api\Admin\MovieController;
-use App\Http\Controllers\Api\Admin\ProfileController;
-use App\Http\Controllers\Api\Admin\QuoteController;
-use App\Http\Controllers\Api\CommentController;
-use App\Http\Controllers\Api\GoogleController;
-use App\Http\Controllers\Api\LikeController;
-use App\Http\Controllers\Api\LoginController;
-use App\Http\Controllers\Api\NotificationController;
-use App\Http\Controllers\Api\RegistrationController;
-use App\Http\Controllers\Api\ResetPasswordController;
-use App\Http\Controllers\Api\VerificationController;
+use App\Http\Controllers\Admin\MovieController;
+use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\QuoteController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\GoogleController;
+use App\Http\Controllers\LikeController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\ResetPasswordController;
+use App\Http\Controllers\VerificationController;
 use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
 
