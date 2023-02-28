@@ -68,20 +68,20 @@ class QuoteController extends Controller
 	public function search(Request $request)
 	{
 		$search = $request->search;
-		if ($search[0] == '@')
+		if ($search && $search[0] == '@')
 		{
 			$search = substr($search, 1);
 			$quotes = Quote::whereHas('movie', function ($query) use ($search) {
 				$query->where('title->en', 'like', $search . '%')
 				   ->orWhere('title->ge', 'like', $search . '%');
-			})->with('comments.user')->get();
+			})->with('comments.user')->orderBy('created_at', 'desc')->get();
 		}
-		elseif ($search[0] == '#')
+		elseif ($search && $search[0] == '#')
 		{
 			$search = substr($search, 1);
 			$quotes = Quote::query()
 			   ->where('quote->en', 'like', $search . '%')
-			   ->orWhere('quote->ge', 'like', $search . '%')->with('comments.user')
+			   ->orWhere('quote->ge', 'like', $search . '%')->orderBy('created_at', 'desc')->with('comments.user')
 			   ->get();
 		}
 		else
@@ -90,7 +90,7 @@ class QuoteController extends Controller
 				$query->where('title->en', 'like', $search . '%')
 				   ->orWhere('title->ge', 'like', $search . '%');
 			})->orWhere('quote->en', 'like', $search . '%')
-			   ->orWhere('quote->ge', 'like', $search . '%')->with('comments.user')
+			   ->orWhere('quote->ge', 'like', $search . '%')->orderBy('created_at', 'desc')->with('comments.user')
 			   ->get();
 		}
 

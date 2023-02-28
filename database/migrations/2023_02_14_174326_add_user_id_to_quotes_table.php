@@ -8,8 +8,7 @@ return new class extends Migration {
 	public function up()
 	{
 		Schema::table('quotes', function (Blueprint $table) {
-
-			$table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
+			$table->foreignId('user_id')->constrained()->cascadeOnDelete();
 		});
 	}
 
