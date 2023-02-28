@@ -21,7 +21,7 @@
         <p style="margin-bottom: 24px;margin-top:40px">{{ __('mail.if_doesnot_work') }}</p>
         <a href={{  config('app.frontend_url'). '/'. $local.'/profile?token='.$email->token.'&email='.$email->email }}
             style="margin-bottom: 40px;color:#DDCCAA;text-decoration: none;cursor: pointer">
-            {{ $url }}</a>
+            {{  config('app.frontend_url'). '/'. $local.'/profile?token='.$email->token.'&email='.$email->email }}</a>
             <p style="margin-bottom: 24px">{{ __('mail.if_any_problems') }}</p>
            <p>{{ __('mail.movie_quotes_crew') }}</p>
     </div>
