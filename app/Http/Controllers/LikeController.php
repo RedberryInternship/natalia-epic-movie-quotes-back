@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Events\AddLikeEvent;
 use App\Events\NotificationsEvent;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreLikeRequest;
 use App\Models\Like;
 use App\Models\Notification;
@@ -34,10 +33,11 @@ class LikeController extends Controller
 			if ($request->to !== auth()->user()->id)
 			{
 				$notification = Notification::create([
-					'to'          => $request->to,
-					'from'        => $request->from,
-					'type'        => 'like',
-					'is_read'     => false,
+					'to'              => $request->to,
+					'from'            => $request->from,
+					'type'            => 'like',
+					'quote_id'        => $id,
+					'is_read'         => false,
 				]);
 
 				event(new NotificationsEvent($notification));

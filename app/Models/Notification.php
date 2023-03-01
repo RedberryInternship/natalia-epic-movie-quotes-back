@@ -11,7 +11,7 @@ class Notification extends Model
 
 	protected $guarded = [];
 
-	public function from()
+	public function author()
 	{
 		return $this->belongsTo(User::class, 'from');
 	}
@@ -19,5 +19,10 @@ class Notification extends Model
 	public function to()
 	{
 		return $this->belongsTo(User::class, 'to');
+	}
+
+	public function quote()
+	{
+		return $this->belongsTo(Quote::class, 'quote_id');
 	}
 }
